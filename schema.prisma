@@ -1,0 +1,26 @@
+datasource db {
+  provider  = "postgresql"
+  url          = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+generator db {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = 5
+}
+
+model Post {
+  id         String   @id @default(cuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  title      String
+  published  Boolean
+  desc       String?
+}
+
+model test{
+  id        String      @id @default(cuid())
+  title     String
+}
