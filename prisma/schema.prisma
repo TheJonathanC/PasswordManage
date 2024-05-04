@@ -11,21 +11,28 @@ generator client {
   
 }
 
+// Define the User model
 model User {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   username  String   @unique
-  email     String?  @unique
-  password  String
+  email     String   @unique
+  password  String   // Note: This will be stored as a hashed password
+  // You can add more fields like name, profile picture, etc.
+  
+  // Define the relationship to the Password model
+  passwords Password[]
 }
 
-// Define your Site model
-
-// Define your Password model
+// Define the Password model
 model Password {
-id       String      @id @default(uuid())
-sitename String
-password String
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
+  id            String        @id @default(uuid())
+  site          String
+  username      String?
+  passwordHash  String     // Password will be stored as a hashed value
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  // Define the relationship to the User model
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
 }
-
